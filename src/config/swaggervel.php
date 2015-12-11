@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jordan
- * Date: 04/07/14
- * Time: 3:54 PM
- */
 
-return array(
+return [
     /*
       |--------------------------------------------------------------------------
       | Absolute path to location where parsed swagger annotations will be stored
       |--------------------------------------------------------------------------
     */
-    'doc-dir' => storage_path() . '/docs',
+    'doc-dir' => storage_path().'/docs',
 
     /*
       |--------------------------------------------------------------------------
@@ -26,72 +20,73 @@ return array(
       | Absolute path to directory containing the swagger annotations are stored.
       |--------------------------------------------------------------------------
     */
-    "app-dir" => "modules/Api",
+    'app-dir' => 'app',
 
     /*
       |--------------------------------------------------------------------------
       | Absolute path to directories that you would like to exclude from swagger generation
       |--------------------------------------------------------------------------
     */
-    "excludes" => array(
-        storage_path(),
-        base_path()."/tests",
-        base_path()."/resources/views",
-        base_path()."/config",
-        base_path()."/vendor"
-    ),
+    'excludes' => [
+        //
+    ],
 
     /*
       |--------------------------------------------------------------------------
       | Turn this off to remove swagger generation on production
       |--------------------------------------------------------------------------
     */
-    "generateAlways" => true,
+    'generateAlways' => env('SWAGGERVEL_GENERATE_ALWAYS', false),
 
-    "api-key" => "auth_token",
+    /*
+      |--------------------------------------------------------------------------
+      | Set the api key
+      |--------------------------------------------------------------------------
+    */
+    'api-key' => env('SWAGGERVEL_API_KEY'),
 
     /*
       |--------------------------------------------------------------------------
       | Edit to set the api's version number
       |--------------------------------------------------------------------------
     */
-    "default-api-version" => "v1",
+    'default-api-version' => env('SWAGGERVEL_DEFAULT_API_VERSION', 'v1'),
 
     /*
       |--------------------------------------------------------------------------
       | Edit to set the swagger version number
       |--------------------------------------------------------------------------
     */
-    "default-swagger-version" => "2.0",
+    'default-swagger-version' => env('SWAGGERVEL_DEFAULT_SWAGGER_VERSION', '2.0'),
 
     /*
       |--------------------------------------------------------------------------
       | Edit to set the api's base path
       |--------------------------------------------------------------------------
     */
-    "default-base-path" => "",
+    'default-base-path' => env('SWAGGERVEL_DEFAULT_BASE_PATH', '/'),
 
     /*
       |--------------------------------------------------------------------------
       | Edit to trust the proxy's ip address - needed for AWS Load Balancer
       |--------------------------------------------------------------------------
     */
-    "behind-reverse-proxy" => false,
+    'behind-reverse-proxy' => env('SWAGGERVEL_BEHIND_PROXY', false),
     /*
       |--------------------------------------------------------------------------
       | Uncomment to add response headers when swagger is generated
       |--------------------------------------------------------------------------
     */
-    /*"viewHeaders" => array(
-        'Content-Type' => 'text/plain'
-    ),*/
+    // 'viewHeaders' => [
+    //     'Content-Type' => 'text/plain',
+    // ],
 
     /*
       |--------------------------------------------------------------------------
       | Uncomment to add request headers when swagger performs requests
       |--------------------------------------------------------------------------
     */
-    /*"requestHeaders" => array(
-        'TestMe' => 'testValue'
-    ),*/
-);
+    // 'requestHeaders' => [
+    //     'TestMe' => 'testValue',
+    // ],
+];

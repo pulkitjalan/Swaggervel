@@ -7,6 +7,7 @@ var oauth2KeyName;
 var redirect_uri;
 var clientSecret;
 var scopeSeparator;
+var additionalQueryStringParams;
 
 function handleLogin() {
   var scopes = [];
@@ -156,6 +157,9 @@ function handleLogin() {
     url += '&client_id=' + encodeURIComponent(clientId);
     url += '&scope=' + encodeURIComponent(scopes.join(scopeSeparator));
     url += '&state=' + encodeURIComponent(state);
+    for (var key in additionalQueryStringParams) {
+        url += '&' + key + '=' + encodeURIComponent(additionalQueryStringParams[key]);
+    }
 
     window.open(url);
   });
@@ -167,8 +171,8 @@ function handleLogin() {
 
 
 function handleLogout() {
-  for(key in window.authorizations.authz){
-    window.authorizations.remove(key)
+  for(key in window.swaggerUi.api.clientAuthorizations.authz){
+    window.swaggerUi.api.clientAuthorizations.remove(key)
   }
   window.enabledScopes = null;
   $('.api-ic.ic-on').addClass('ic-off');
@@ -187,9 +191,10 @@ function initOAuth(opts) {
   popupMask = (o.popupMask||$('#api-common-mask'));
   popupDialog = (o.popupDialog||$('.api-popup-dialog'));
   clientId = (o.clientId||errors.push('missing client id'));
-  clientSecret = (o.clientSecret||errors.push('missing client secret'));
+  clientSecret = (o.clientSecret||null);
   realm = (o.realm||errors.push('missing realm'));
   scopeSeparator = (o.scopeSeparator||' ');
+  additionalQueryStringParams = (o.additionalQueryStringParams||{});
 
   if(errors.length > 0){
     log('auth unable initialize oauth: ' + errors);
@@ -211,11 +216,15 @@ function initOAuth(opts) {
 window.processOAuthCode = function processOAuthCode(data) {
   var params = {
     'client_id': clientId,
-    'client_secret': clientSecret,
     'code': data.code,
     'grant_type': 'authorization_code',
     'redirect_uri': redirect_uri
+  };
+
+  if (clientSecret) {
+    params.client_secret = clientSecret;
   }
+
   $.ajax(
   {
     url : window.swaggerUi.tokenUrl,
@@ -230,7 +239,7 @@ window.processOAuthCode = function processOAuthCode(data) {
       onOAuthComplete("");
     }
   });
-}
+};
 
 window.onOAuthComplete = function onOAuthComplete(token) {
   if(token) {
@@ -287,4 +296,4 @@ window.onOAuthComplete = function onOAuthComplete(token) {
       }
     }
   }
-}
+};

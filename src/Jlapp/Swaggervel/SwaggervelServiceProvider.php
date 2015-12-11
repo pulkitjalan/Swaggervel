@@ -1,9 +1,11 @@
-<?php namespace Jlapp\Swaggervel;
+<?php
+
+namespace Jlapp\Swaggervel;
 
 use Illuminate\Support\ServiceProvider;
 
-class SwaggervelServiceProvider extends ServiceProvider {
-
+class SwaggervelServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -16,7 +18,8 @@ class SwaggervelServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         $this->publishes([
             __DIR__.'/../../config/swaggervel.php' => config_path('swaggervel.php'),
         ]);
@@ -24,7 +27,6 @@ class SwaggervelServiceProvider extends ServiceProvider {
         $this->publishes([
             __DIR__.'/../../../public' => public_path('vendor/swaggervel'),
         ], 'public');
-
 
         $this->loadViewsFrom(__DIR__.'/../../views', 'swaggervel');
 
@@ -43,7 +45,6 @@ class SwaggervelServiceProvider extends ServiceProvider {
             __DIR__.'/../../config/swaggervel.php', 'swaggervel'
         );
 
-        require_once __DIR__ .'/routes.php';
+        require_once __DIR__.'/routes.php';
     }
-
 }
