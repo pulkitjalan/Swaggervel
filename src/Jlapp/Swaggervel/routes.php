@@ -19,25 +19,7 @@ Route::any(Config::get('swaggervel.doc-route').'/{page?}', function ($page = 'ap
 
 Route::get('api-docs', function () {
     if (Config::get('swaggervel.generateAlways')) {
-        $appDir = base_path().'/'.Config::get('swaggervel.app-dir');
-        $docDir = Config::get('swaggervel.doc-dir');
-
-        if (! File::exists($docDir) || File::isWritable($docDir)) {
-            // delete existing documentation
-            $filename = $docDir.'/api-docs.json';
-            File::delete($filename);
-
-            $defaultBasePath = Config::get('swaggervel.default-base-path');
-            $defaultApiVersion = Config::get('swaggervel.default-api-version');
-            $defaultSwaggerVersion = Config::get('swaggervel.default-swagger-version');
-            $excludeDirs = Config::get('swaggervel.excludes');
-
-            $swagger = \Swagger\scan($appDir, [
-                'exclude' => $excludeDirs,
-            ]);
-
-            File::put($filename, $swagger);
-        }
+        Artisan::call('swaggervel:generate');
     }
 
     if (Config::get('swaggervel.behind-reverse-proxy')) {

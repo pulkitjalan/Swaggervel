@@ -20,19 +20,13 @@ class SwaggervelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../../config/swaggervel.php' => config_path('swaggervel.php'),
-        ]);
+        $this->publishes([__DIR__.'/../../config/swaggervel.php' => config_path('swaggervel.php')]);
 
-        $this->publishes([
-            __DIR__.'/../../../public' => public_path('vendor/swaggervel'),
-        ], 'public');
+        $this->publishes([__DIR__.'/../../../public' => public_path('vendor/swaggervel')], 'public');
 
         $this->loadViewsFrom(__DIR__.'/../../views', 'swaggervel');
 
-        $this->publishes([
-            __DIR__.'/../../views' => base_path('resources/views/vendor/swaggervel'),
-        ]);
+        $this->publishes([__DIR__.'/../../views' => base_path('resources/views/vendor/swaggervel')]);
     }
     /**
      * Register the service provider.
@@ -41,9 +35,13 @@ class SwaggervelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/swaggervel.php', 'swaggervel'
-        );
+        $this->mergeConfigFrom(__DIR__.'/../../config/swaggervel.php', 'swaggervel');
+
+        $this->app['command.swaggervel.generate'] = $this->app->share(function ($app) {
+            return new SwaggervelGenerateCommand();
+        });
+
+        $this->commands(['command.swaggervel.generate']);
 
         require_once __DIR__.'/routes.php';
     }
