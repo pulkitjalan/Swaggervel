@@ -3,6 +3,13 @@
 return [
     /*
       |--------------------------------------------------------------------------
+      | Enable swaggervel api and doc routes. Useful for disabling in some envs
+      |--------------------------------------------------------------------------
+    */
+    'enabled' => env('SWAGGERVEL_ENABLED', true),
+
+    /*
+      |--------------------------------------------------------------------------
       | Absolute path to location where parsed swagger annotations will be stored
       |--------------------------------------------------------------------------
     */
@@ -72,6 +79,7 @@ return [
       |--------------------------------------------------------------------------
     */
     'behind-reverse-proxy' => env('SWAGGERVEL_BEHIND_PROXY', false),
+
     /*
       |--------------------------------------------------------------------------
       | Uncomment to add response headers when swagger is generated

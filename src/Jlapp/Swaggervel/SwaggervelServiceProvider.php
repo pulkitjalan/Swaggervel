@@ -2,6 +2,7 @@
 
 namespace Jlapp\Swaggervel;
 
+use Config;
 use Illuminate\Support\ServiceProvider;
 
 class SwaggervelServiceProvider extends ServiceProvider
@@ -43,6 +44,8 @@ class SwaggervelServiceProvider extends ServiceProvider
 
         $this->commands(['command.swaggervel.generate']);
 
-        require_once __DIR__.'/routes.php';
+        if (Config::get('swaggervel.enabled')) {
+            require_once __DIR__.'/routes.php';
+        }
     }
 }
